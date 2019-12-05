@@ -111,7 +111,7 @@ resource "aws_cloudwatch_log_subscription_filter" "kinesis_log_stderr_stream" {
 }
 
 resource "aws_appautoscaling_target" "ecs" {
-  count              = var.allow_overnight_scaledown
+  count              = var.allow_overnight_scaledown ? 1 : 0
   min_capacity       = var.desired_count
   max_capacity       = var.desired_count
   resource_id        = "service/${var.ecs_cluster}/${local.service_name}${var.name_suffix}"
@@ -120,7 +120,7 @@ resource "aws_appautoscaling_target" "ecs" {
 }
 
 resource "aws_appautoscaling_scheduled_action" "scale_down" {
-  count              = var.allow_overnight_scaledown
+  count              = var.allow_overnight_scaledown ? 1 : 0
   name               = "scale_down-${local.service_name}${var.name_suffix}"
   service_namespace  = aws_appautoscaling_target.ecs[0].service_namespace
   resource_id        = aws_appautoscaling_target.ecs[0].resource_id
@@ -134,7 +134,7 @@ resource "aws_appautoscaling_scheduled_action" "scale_down" {
 }
 
 resource "aws_appautoscaling_scheduled_action" "scale_back_up" {
-  count              = var.allow_overnight_scaledown
+  count              = var.allow_overnight_scaledown ? 1 : 0
   name               = "scale_up-${local.service_name}${var.name_suffix}"
   service_namespace  = aws_appautoscaling_target.ecs[0].service_namespace
   resource_id        = aws_appautoscaling_target.ecs[0].resource_id
