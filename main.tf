@@ -4,11 +4,12 @@ locals {
 
 module "ecs_update_monitor" {
   source  = "mergermarket/ecs-update-monitor/acuris"
-  version = "2.0.0"
+  version = "2.0.4"
 
   cluster = var.ecs_cluster
   service = module.service.name
   taskdef = module.taskdef.arn
+  is_test = var.is_test
 }
 
 module "service" {
@@ -37,6 +38,7 @@ module "taskdef" {
   volume                = var.taskdef_volume
   env                   = var.env
   release               = var.release
+  is_test               = var.is_test
 }
 
 module "service_container_definition" {
@@ -76,7 +78,6 @@ module "service_container_definition" {
       "env"              = var.env
       "team"             = var.release["team"]
       "version"          = var.release["version"]
-      "logentries.token" = var.logentries_token
     },
     var.container_labels,
   )

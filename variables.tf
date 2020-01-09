@@ -75,12 +75,6 @@ variable "target_group_arn" {
   type        = string
 }
 
-variable "logentries_token" {
-  description = "The Logentries token used to be able to get logs sent to a specific log set."
-  type        = string
-  default     = ""
-}
-
 variable "task_role_policy" {
   description = "IAM policy document to apply to the tasks via a task role"
   type        = string
@@ -97,7 +91,6 @@ variable "task_role_policy" {
   ]
 }
 END
-
 }
 
 variable "assume_role_policy" {
@@ -177,3 +170,7 @@ variable "platform_secrets" {
   default     = []
 }
 
+variable "is_test" {
+  description = "For testing only. Stops the call to AWS for sts"
+  default     = false
+}
