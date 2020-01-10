@@ -77,7 +77,7 @@
               "container_name": "ecs-service-test",
               "container_port": 1234,
               "elb_name": "",
-              "target_group_arn": "a-target-group-arn"
+              "target_group_arn": "arn:aws:elasticloadbalancing:eu-west-1:123456789012:targetgroup/test-service/1234abcd123456ba1"
             }
           ],
           "name": "ci-ecs-service-test",

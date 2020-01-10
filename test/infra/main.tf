@@ -22,7 +22,7 @@ module "service" {
   cpu              = "256"
   memory           = "512"
   port             = "1234"
-  target_group_arn = "a-target-group-arn"
+  target_group_arn = "arn:aws:elasticloadbalancing:eu-west-1:123456789012:targetgroup/test-service/1234abcd123456ba1"
   release          = {
       "component": "ecs-service-test",
       "version": "1",
@@ -42,7 +42,7 @@ module "service_with_name_suffix" {
   cpu              = "256"
   memory           = "512"
   port             = "1234"
-  target_group_arn = "a-target-group-arn"
+  target_group_arn = "arn:aws:elasticloadbalancing:eu-west-1:123456789012:targetgroup/test-service/1234abcd123456ba1"
   release          = {
       "component": "ecs-service-test",
       "version": "1",
@@ -63,7 +63,7 @@ module "service_with_task_role_policy" {
   cpu              = "256"
   memory           = "512"
   port             = "1234"
-  target_group_arn = "a-target-group-arn"
+  target_group_arn = "arn:aws:elasticloadbalancing:eu-west-1:123456789012:targetgroup/test-service/1234abcd123456ba1"
   release          = {
       "component": "ecs-service-test",
       "version": "1",
