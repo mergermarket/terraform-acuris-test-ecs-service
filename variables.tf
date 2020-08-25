@@ -174,3 +174,9 @@ variable "is_test" {
   description = "For testing only. Stops the call to AWS for sts"
   default     = false
 }
+
+variable "image_id" {
+  description = "ECR image_id for the ecs container"
+  type        = string
+  default     = ""
+}
