@@ -31,7 +31,6 @@ class TestCreateService(unittest.TestCase):
     def assert_resource_changes(self, testname, resource_changes):
         with open(f'test/files/{testname}.json', 'r') as f:
             data = json.load(f)
-
             assert data.get('resource_changes') == resource_changes
 
     def test_create_ecs_service(self):
@@ -87,3 +86,21 @@ class TestCreateService(unittest.TestCase):
         assert len(resource_changes) == 12
         self.assert_resource_changes_action(resource_changes, 'create', 10)
         self.assert_resource_changes('create_ecs_service_with_task_role_policy', resource_changes)
+
+    def test_create_ecs_service_with_image_id(self):
+        # Given When
+        check_call([
+            'terraform',
+            'plan',
+            '-out=plan.out',
+            '-no-color',
+            '-target=module.service_with_image_id',
+            'test/infra'
+        ])
+
+        resource_changes = self.get_resource_changes()
+
+        # Then
+        assert len(resource_changes) == 12
+        self.assert_resource_changes_action(resource_changes, 'create', 10)
+        self.assert_resource_changes('create_ecs_service_with_image_id', resource_changes)

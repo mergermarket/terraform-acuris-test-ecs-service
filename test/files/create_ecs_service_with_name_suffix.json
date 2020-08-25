@@ -71,6 +71,7 @@
           "deployment_minimum_healthy_percent": 100,
           "desired_count": 3,
           "enable_ecs_managed_tags": false,
+          "force_new_deployment": null,
           "health_check_grace_period_seconds": null,
           "load_balancer": [
             {
@@ -96,7 +97,8 @@
           "propagate_tags": null,
           "scheduling_strategy": "REPLICA",
           "service_registries": [],
-          "tags": null
+          "tags": null,
+          "timeouts": null
         },
         "after_unknown": {
           "capacity_provider_strategy": [],
@@ -113,7 +115,6 @@
             {}
           ],
           "placement_constraints": [],
-          "placement_strategy": true,
           "platform_version": true,
           "service_registries": [],
           "task_definition": true
@@ -189,7 +190,7 @@
         "after": {
           "program": [
             "python",
-            ".terraform/modules/service_with_name_suffix.service_container_definition/mergermarket-terraform-acuris-ecs-container-definition-2a99a34/encode_secrets.py"
+            ".terraform/modules/service_with_name_suffix.service_container_definition/terraform-acuris-ecs-container-definition-2.0.0/encode_secrets.py"
           ],
           "query": {
             "common_secrets": "{}",
@@ -370,6 +371,7 @@
         "after": {
           "cpu": null,
           "family": "ci-ecs-service-test-new",
+          "inference_accelerator": [],
           "ipc_mode": null,
           "memory": null,
           "pid_mode": null,
@@ -380,6 +382,7 @@
           "volume": [
             {
               "docker_volume_configuration": [],
+              "efs_volume_configuration": [],
               "host_path": "/tmp/dummy_volume",
               "name": "dummy"
             }
@@ -390,6 +393,7 @@
           "container_definitions": true,
           "execution_role_arn": true,
           "id": true,
+          "inference_accelerator": [],
           "network_mode": true,
           "placement_constraints": [],
           "proxy_configuration": [],
@@ -397,7 +401,8 @@
           "task_role_arn": true,
           "volume": [
             {
-              "docker_volume_configuration": []
+              "docker_volume_configuration": [],
+              "efs_volume_configuration": []
             }
           ]
         }

@@ -87,3 +87,24 @@ module "service_with_task_role_policy" {
 }
 END
 }
+
+module "service_with_image_id" {
+  source = "../.."
+
+  env              = "ci"
+  cpu              = "256"
+  memory           = "512"
+  port             = "1234"
+  target_group_arn = "arn:aws:elasticloadbalancing:eu-west-1:123456789012:targetgroup/test-service/1234abcd123456ba1"
+  release          = {
+      "component": "ecs-service-test",
+      "version": "1",
+      "image_id": "imageId",
+      "team": "super-team",
+  }
+  platform_config  = {
+    "datadog_log_subscription_arn": ""
+  }
+  image_id         = "my_image"
+  is_test          = true
+}
