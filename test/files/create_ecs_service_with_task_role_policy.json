@@ -191,7 +191,7 @@
         "after": {
           "program": [
             "python",
-            ".terraform/modules/service_with_task_role_policy.service_container_definition/terraform-acuris-ecs-container-definition-2.0.0/encode_secrets.py"
+            ".terraform/modules/service_with_task_role_policy.service_container_definition/encode_secrets.py"
           ],
           "query": {
             "common_secrets": "{}",
