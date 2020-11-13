@@ -98,7 +98,8 @@
           "scheduling_strategy": "REPLICA",
           "service_registries": [],
           "tags": null,
-          "timeouts": null
+          "timeouts": null,
+          "wait_for_steady_state": false
         },
         "after_unknown": {
           "capacity_provider_strategy": [],
