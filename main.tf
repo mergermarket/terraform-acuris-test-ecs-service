@@ -29,7 +29,7 @@ module "service" {
 
 module "taskdef" {
   source  = "mergermarket/task-definition-with-task-role/acuris"
-  version = "2.0.1"
+  version = "2.1.0"
 
   family                = "${local.service_name}${var.name_suffix}"
   container_definitions = [module.service_container_definition.rendered]
@@ -38,6 +38,7 @@ module "taskdef" {
   volume                = var.taskdef_volume
   env                   = var.env
   release               = var.release
+  network_mode          = var.network_mode
   is_test               = var.is_test
 }
 
