@@ -181,15 +181,19 @@ variable "image_id" {
   default     = ""
 }
 
+variable "network_mode" {
+  description = "The Docker networking mode to use for the containers in the task"
+  type        = string
+  default     = "bridge"
+}
+
 variable "network_configuration_subnets" {
   description = "needed for network_mode awsvpc "
   type        = list
   default     = []
 }
 
-
 variable "network_configuration_security_groups" {
   description = "needed for network_mode awsvpc "
   type        = list
   default     = []
-}
