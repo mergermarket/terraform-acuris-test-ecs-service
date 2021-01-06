@@ -14,7 +14,7 @@ module "ecs_update_monitor" {
 
 module "service" {
   source  = "mergermarket/load-balanced-ecs-service-no-target-group/acuris"
-  version = "2.0.2"
+  version = "2.1.0"
 
   name                               = "${local.service_name}${var.name_suffix}"
   cluster                            = var.ecs_cluster
@@ -25,6 +25,8 @@ module "service" {
   target_group_arn                   = var.target_group_arn
   deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
   deployment_maximum_percent         = var.deployment_maximum_percent
+  network_configuration_subnets      = var.network_configuration_subnets
+  network_configuration_security_groups = var.network_configuration_security_groups
 }
 
 module "taskdef" {
