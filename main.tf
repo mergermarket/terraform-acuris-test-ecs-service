@@ -14,18 +14,18 @@ module "ecs_update_monitor" {
 
 module "service" {
   source  = "mergermarket/load-balanced-ecs-service-no-target-group/acuris"
-  version = "2.1.0"
+  version = "2.1.1"
 
-  name                               = "${local.service_name}${var.name_suffix}"
-  cluster                            = var.ecs_cluster
-  task_definition                    = module.taskdef.arn
-  container_name                     = "${var.release["component"]}${var.name_suffix}"
-  container_port                     = var.port
-  desired_count                      = var.desired_count
-  target_group_arn                   = var.target_group_arn
-  deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
-  deployment_maximum_percent         = var.deployment_maximum_percent
-  network_configuration_subnets      = var.network_configuration_subnets
+  name                                  = "${local.service_name}${var.name_suffix}"
+  cluster                               = var.ecs_cluster
+  task_definition                       = module.taskdef.arn
+  container_name                        = "${var.release["component"]}${var.name_suffix}"
+  container_port                        = var.port
+  desired_count                         = var.desired_count
+  target_group_arn                      = var.target_group_arn
+  deployment_minimum_healthy_percent    = var.deployment_minimum_healthy_percent
+  deployment_maximum_percent            = var.deployment_maximum_percent
+  network_configuration_subnets         = var.network_configuration_subnets
   network_configuration_security_groups = var.network_configuration_security_groups
 }
 
@@ -77,10 +77,10 @@ module "service_container_definition" {
 
   labels = merge(
     {
-      "component"        = var.release["component"]
-      "env"              = var.env
-      "team"             = var.release["team"]
-      "version"          = var.release["version"]
+      "component" = var.release["component"]
+      "env"       = var.env
+      "team"      = var.release["team"]
+      "version"   = var.release["version"]
     },
     var.container_labels,
   )
