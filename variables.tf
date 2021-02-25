@@ -198,3 +198,9 @@ variable "network_configuration_security_groups" {
   type        = list
   default     = []
 }
+
+variable "add_datadog_feed" {
+  description = "Flag to control adding subscription filter to CW loggroup"
+  type = bool
+  default = true
+}
