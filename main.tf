@@ -27,6 +27,7 @@ module "service" {
   deployment_maximum_percent            = var.deployment_maximum_percent
   network_configuration_subnets         = var.network_configuration_subnets
   network_configuration_security_groups = var.network_configuration_security_groups
+  pack_and_distinct                     = var.pack_and_distinct
 }
 
 module "taskdef" {
