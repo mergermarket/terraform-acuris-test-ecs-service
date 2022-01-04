@@ -210,3 +210,8 @@ variable "pack_and_distinct" {
   type = string
   default = "false"
 }
+
+variable "stop_timeout" {
+  description = "The duration is seconds to wait before the container is forcefully killed. Default 30s, max 120s."
+  default     = "none"
+}
