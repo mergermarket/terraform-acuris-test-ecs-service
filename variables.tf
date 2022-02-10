@@ -73,6 +73,13 @@ variable "name_suffix" {
 variable "target_group_arn" {
   description = "The ALB target group for the service."
   type        = string
+  default     = ""
+}
+
+variable "multiple_target_group_arns" {
+  description = "Mutiple target group ARNs to allow connection to multiple loadbalancers"
+  type        = list
+  default     = []
 }
 
 variable "task_role_policy" {
