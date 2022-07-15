@@ -29,6 +29,7 @@ module "service" {
   network_configuration_subnets         = var.network_configuration_subnets
   network_configuration_security_groups = var.network_configuration_security_groups
   pack_and_distinct                     = var.pack_and_distinct
+  health_check_grace_period_seconds     = var.health_check_grace_period_seconds
 }
 
 module "taskdef" {
