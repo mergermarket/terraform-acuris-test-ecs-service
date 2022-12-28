@@ -14,7 +14,7 @@ module "ecs_update_monitor" {
 
 module "service" {
   source  = "mergermarket/load-balanced-ecs-service-no-target-group/acuris"
-  version = "2.2.7"
+  version = "2.3.1"
 
   name                                  = "${local.service_name}${var.name_suffix}"
   cluster                               = var.ecs_cluster
