@@ -19,7 +19,7 @@ module "service" {
   name                                  = "${local.service_name}${var.name_suffix}"
   cluster                               = var.ecs_cluster
   task_definition                       = module.taskdef.arn
-  env                                   = var.emv
+  env                                   = var.env
   container_name                        = "${var.release["component"]}${var.name_suffix}"
   container_port                        = var.port
   desired_count                         = var.desired_count
