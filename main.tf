@@ -14,14 +14,11 @@ module "ecs_update_monitor" {
 
 module "service" {
   source  = "mergermarket/load-balanced-ecs-service-no-target-group/acuris"
-  version = "2.3.3"
+  version = "2.2.7"
 
   name                                  = "${local.service_name}${var.name_suffix}"
   cluster                               = var.ecs_cluster
   task_definition                       = module.taskdef.arn
-  env                                   = var.env
-  team                                  = var.release["team"]
-  component                             = var.release["component"]
   container_name                        = "${var.release["component"]}${var.name_suffix}"
   container_port                        = var.port
   desired_count                         = var.desired_count
