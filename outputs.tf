@@ -17,3 +17,7 @@ output "stdout_name" {
 output "stderr_name" {
   value = aws_cloudwatch_log_group.stderr.name
 }
+
+output "service_name" {
+  value = local.service_name
+}
