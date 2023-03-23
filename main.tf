@@ -1,5 +1,6 @@
 locals {
-  service_name = "${var.env}-${var.release["component"]}"
+  service_name      = "${var.env}-${var.release["component"]}"
+  full_service_name = "${local.service_name}${var.name_suffix}"
 }
 
 module "ecs_update_monitor" {
@@ -16,7 +17,7 @@ module "service" {
   source  = "mergermarket/load-balanced-ecs-service-no-target-group/acuris"
   version = "2.2.7"
 
-  name                                  = "${local.service_name}${var.name_suffix}"
+  name                                  = local.full_service_name
   cluster                               = var.ecs_cluster
   task_definition                       = module.taskdef.arn
   container_name                        = "${var.release["component"]}${var.name_suffix}"
@@ -36,7 +37,7 @@ module "taskdef" {
   source  = "mergermarket/task-definition-with-task-role/acuris"
   version = "2.1.0"
 
-  family                = "${local.service_name}${var.name_suffix}"
+  family                = local.full_service_name
   container_definitions = [module.service_container_definition.rendered]
   policy                = var.task_role_policy
   assume_role_policy    = var.assume_role_policy
@@ -65,8 +66,8 @@ module "service_container_definition" {
 
   container_env = merge(
     {
-      "LOGSPOUT_CLOUDWATCHLOGS_LOG_GROUP_STDOUT" = "${local.service_name}${var.name_suffix}-stdout"
-      "LOGSPOUT_CLOUDWATCHLOGS_LOG_GROUP_STDERR" = "${local.service_name}${var.name_suffix}-stderr"
+      "LOGSPOUT_CLOUDWATCHLOGS_LOG_GROUP_STDOUT" = "${local.full_service_name}-stdout"
+      "LOGSPOUT_CLOUDWATCHLOGS_LOG_GROUP_STDERR" = "${local.full_service_name}-stderr"
       "STATSD_HOST"                              = "172.17.42.1"
       "STATSD_PORT"                              = "8125"
       "STATSD_ENABLED"                           = "true"
@@ -91,12 +92,12 @@ module "service_container_definition" {
 }
 
 resource "aws_cloudwatch_log_group" "stdout" {
-  name              = "${local.service_name}${var.name_suffix}-stdout"
+  name              = "${local.full_service_name}-stdout"
   retention_in_days = "7"
 }
 
 resource "aws_cloudwatch_log_group" "stderr" {
-  name              = "${local.service_name}${var.name_suffix}-stderr"
+  name              = "${local.full_service_name}-stderr"
   retention_in_days = "7"
 }
 
@@ -104,7 +105,7 @@ resource "aws_cloudwatch_log_subscription_filter" "kinesis_log_stdout_stream" {
   count           = var.platform_config["datadog_log_subscription_arn"] != "" && var.add_datadog_feed ? 1 : 0
   name            = "kinesis-log-stdout-stream-${local.service_name}"
   destination_arn = var.platform_config["datadog_log_subscription_arn"]
-  log_group_name  = "${local.service_name}${var.name_suffix}-stdout"
+  log_group_name  = "${local.full_service_name}-stdout"
   filter_pattern  = ""
   depends_on      = [aws_cloudwatch_log_group.stdout]
 }
@@ -113,7 +114,7 @@ resource "aws_cloudwatch_log_subscription_filter" "kinesis_log_stderr_stream" {
   count           = var.platform_config["datadog_log_subscription_arn"] != "" && var.add_datadog_feed ? 1 : 0
   name            = "kinesis-log-stdout-stream-${local.service_name}"
   destination_arn = var.platform_config["datadog_log_subscription_arn"]
-  log_group_name  = "${local.service_name}${var.name_suffix}-stderr"
+  log_group_name  = "${local.full_service_name}-stderr"
   filter_pattern  = ""
   depends_on      = [aws_cloudwatch_log_group.stderr]
 }
@@ -122,14 +123,14 @@ resource "aws_appautoscaling_target" "ecs" {
   count              = var.allow_overnight_scaledown ? 1 : 0
   min_capacity       = var.desired_count
   max_capacity       = var.desired_count
-  resource_id        = "service/${var.ecs_cluster}/${local.service_name}${var.name_suffix}"
+  resource_id        = "service/${var.ecs_cluster}/${local.full_service_name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
 }
 
 resource "aws_appautoscaling_scheduled_action" "scale_down" {
-  count              = var.env != "live" && var.allow_overnight_scaledown ? 1 : 0 
-  name               = "scale_down-${local.service_name}${var.name_suffix}"
+  count              = var.env != "live" && var.allow_overnight_scaledown ? 1 : 0
+  name               = "scale_down-${local.full_service_name}"
   service_namespace  = aws_appautoscaling_target.ecs[0].service_namespace
   resource_id        = aws_appautoscaling_target.ecs[0].resource_id
   scalable_dimension = aws_appautoscaling_target.ecs[0].scalable_dimension
@@ -142,8 +143,8 @@ resource "aws_appautoscaling_scheduled_action" "scale_down" {
 }
 
 resource "aws_appautoscaling_scheduled_action" "scale_back_up" {
-  count              = var.env != "live" && var.allow_overnight_scaledown ? 1 : 0 
-  name               = "scale_up-${local.service_name}${var.name_suffix}"
+  count              = var.env != "live" && var.allow_overnight_scaledown ? 1 : 0
+  name               = "scale_up-${local.full_service_name}"
   service_namespace  = aws_appautoscaling_target.ecs[0].service_namespace
   resource_id        = aws_appautoscaling_target.ecs[0].resource_id
   scalable_dimension = aws_appautoscaling_target.ecs[0].scalable_dimension
