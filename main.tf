@@ -50,11 +50,12 @@ module "taskdef" {
 
 module "service_container_definition" {
   source  = "mergermarket/ecs-container-definition/acuris"
-  version = "2.1.0"
+  version = "2.2.0"
 
   name                = "${var.release["component"]}${var.name_suffix}"
   image               = "${var.image_id != "" ? var.image_id : var.release["image_id"]}"
   cpu                 = var.cpu
+  privileged          = var.privileged
   memory              = var.memory
   stop_timeout        = var.stop_timeout
   container_port      = var.port
