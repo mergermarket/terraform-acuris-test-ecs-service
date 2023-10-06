@@ -5,7 +5,7 @@ locals {
 
 module "ecs_update_monitor" {
   source  = "mergermarket/ecs-update-monitor/acuris"
-  version = "2.1.0"
+  version = "2.2.0"
 
   cluster = var.ecs_cluster
   service = module.service.name
