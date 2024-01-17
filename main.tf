@@ -55,7 +55,7 @@ module "service_container_definition" {
   version = "2.2.0"
 
   name                = "${var.release["component"]}${var.name_suffix}"
-  image               = "${var.image_id != "" ? var.image_id : var.release["image_id"]}"
+  image               = var.image_id != "" ? var.image_id : var.release["image_id"]
   cpu                 = var.cpu
   privileged          = var.privileged
   memory              = var.memory
@@ -85,10 +85,11 @@ module "service_container_definition" {
 
   labels = merge(
     {
-      "component" = var.release["component"]
-      "env"       = var.env
-      "team"      = var.release["team"]
-      "version"   = var.release["version"]
+      "component"             = var.release["component"]
+      "env"                   = var.env
+      "team"                  = var.release["team"]
+      "version"               = var.release["version"]
+      "com.datadoghq.ad.logs" = "[{\"source\": \"amazon_ecs\", \"service\": \"${local.full_service_name}\"}]"
     },
     var.container_labels,
   )
@@ -159,10 +160,10 @@ resource "aws_appautoscaling_scheduled_action" "scale_back_up" {
 }
 
 resource "aws_appautoscaling_policy" "task_scaling_policy" {
-  for_each   = {
-    for index, scale in var.scaling_metrics:
-    scale.metric => scale 
-  }  
+  for_each = {
+    for index, scale in var.scaling_metrics :
+    scale.metric => scale
+  }
   name               = each.value.name
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.ecs.resource_id
