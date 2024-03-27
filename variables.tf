@@ -254,7 +254,10 @@ variable "placement_constraint_on_demand_only" {
 }
 
 variable "extra_hosts" {
-  description = "Extra hosts to add to the container /etc/hosts file"
-  type        = map(string)
-  default     = {}
+  description = "values to add to /etc/hosts in the container"
+  type = list(object({
+    hostname  = string
+    ipAddress = string
+  }))
+  default = []
 }
