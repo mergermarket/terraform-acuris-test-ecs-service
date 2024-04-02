@@ -125,8 +125,8 @@ resource "aws_cloudwatch_log_subscription_filter" "kinesis_log_stderr_stream" {
 }
 
 resource "aws_appautoscaling_target" "ecs" {
-  min_capacity       = floor(var.desired_count / 2)
-  max_capacity       = var.desired_count * 3
+  min_capacity       = var.desired_count
+  max_capacity       = var.desired_count
   resource_id        = "service/${var.ecs_cluster}/${local.full_service_name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
