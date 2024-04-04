@@ -261,3 +261,12 @@ variable "extra_hosts" {
   }))
   default = []
 }
+
+variable "image_build_details" {
+  description = "Details of the image build"
+  type        = map(string)
+  default     = {
+    "buildx" = "false",
+    "platform" = ""
+  }
+}
