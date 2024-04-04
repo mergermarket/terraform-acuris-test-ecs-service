@@ -1,3 +1,7 @@
+terraform {
+  required_version = ">= 1.5.0"
+}
+
 locals {
   service_name      = "${var.env}-${var.release["component"]}"
   full_service_name = "${local.service_name}${var.name_suffix}"
@@ -15,17 +19,21 @@ module "ecs_update_monitor" {
 }
 
 locals {
-  # capacity_providers = var.image_build_details["buildx"] == "true" && strcontains(var.image_build_details["platforms"], "arm64") ? [
-  #   {
-  #     capacity_provider = "${var.ecs_cluster}-native-scaling-graviton"
-  #     weight            = 1
-  #   },
-  # ] : [
-  #   {
-  #     capacity_provider = "${var.ecs_cluster}-native-scaling"
-  #     weight            = 1
-  #   },
-  # ]
+  capacity_providers = var.image_build_details["buildx"] == "true" && strcontains(var.image_build_details["platforms"], "arm64") ? [
+    {
+      capacity_provider = "${var.ecs_cluster}-native-scaling-graviton"
+      weight            = 1
+    },
+  ] : [
+    {
+      capacity_provider = "${var.ecs_cluster}-native-scaling"
+      weight            = 1
+    },
+  ]
+}
+
+output "capacity_providers" {
+  value = local.capacity_providers
 }
 
 module "service" {
@@ -46,7 +54,7 @@ module "service" {
   network_configuration_security_groups = var.network_configuration_security_groups
   pack_and_distinct                     = var.pack_and_distinct
   health_check_grace_period_seconds     = var.health_check_grace_period_seconds
-  # capacity_providers                    = local.capacity_providers
+  capacity_providers                    = local.capacity_providers
 }
 
 module "taskdef" {
