@@ -1,6 +1,3 @@
-terraform {
-  required_version = ">= 1.5.0"
-}
 
 locals {
   service_name      = "${var.env}-${var.release["component"]}"
@@ -19,7 +16,7 @@ module "ecs_update_monitor" {
 }
 
 locals {
-  capacity_providers = var.image_build_details["buildx"] == "true" && strcontains(var.image_build_details["platforms"], "arm64") ? [
+  capacity_providers = var.image_build_details["buildx"] == "true" && can(regexall("^arm64", var.image_build_details["platforms"])) ? [
     {
       capacity_provider = "${var.ecs_cluster}-native-scaling-graviton"
       weight            = 1
