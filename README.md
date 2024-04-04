@@ -1,4 +1,4 @@
-# terraform-acuris-ecs-service
+# terraform-acuris-test-ecs-service
 
 [![Test](https://github.com/mergermarket/terraform-acuris-ecs-service/actions/workflows/test.yml/badge.svg)](https://github.com/mergermarket/terraform-acuris-ecs-service/actions/workflows/test.yml)
 
