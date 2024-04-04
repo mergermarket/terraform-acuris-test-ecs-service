@@ -29,7 +29,7 @@ locals {
 }
 
 module "service" {
-  source  = "mergermarket/testt-load-balanced-ecs-service-no-target-group/acuris"
+  source  = "mergermarket/test-load-balanced-ecs-service-no-target-group/acuris"
   version = "10.0.0"
 
   name                                  = local.full_service_name
