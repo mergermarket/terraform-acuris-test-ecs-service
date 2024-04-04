@@ -35,7 +35,7 @@ output "capacity_providers" {
 
 module "service" {
   source  = "mergermarket/test-load-balanced-ecs-service-no-target-group/acuris"
-  version = "10.0.1"
+  version = "10.0.2"
 
   name                                  = local.full_service_name
   cluster                               = var.ecs_cluster
