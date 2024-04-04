@@ -15,7 +15,7 @@ module "ecs_update_monitor" {
 }
 
 locals {
-  capacity_providers = var.image_build_details["buildx"] == "true" && strcontains(var.image_build_details["platform"], "arm64") ? [
+  capacity_providers = var.image_build_details["buildx"] == "true" && strcontains(var.image_build_details["platforms"], "arm64") ? [
     {
       capacity_provider = "${var.ecs_cluster}-native-scaling-graviton"
       weight            = 1

@@ -267,6 +267,6 @@ variable "image_build_details" {
   type        = map(string)
   default     = {
     "buildx" = "false",
-    "platform" = ""
+    "platforms" = ""
   }
 }
