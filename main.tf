@@ -21,12 +21,7 @@ locals {
       capacity_provider = "${var.ecs_cluster}-native-scaling-graviton"
       weight            = 1
     },
-  ] : [
-    {
-      capacity_provider = "${var.ecs_cluster}-native-scaling"
-      weight            = 1
-    },
-  ]
+  ] : []
 }
 
 output "capacity_providers" {
