@@ -1,4 +1,3 @@
-
 locals {
   service_name      = "${var.env}-${var.release["component"]}"
   full_service_name = "${local.service_name}${var.name_suffix}"
@@ -21,7 +20,12 @@ locals {
       capacity_provider = "${var.ecs_cluster}-native-scaling-graviton"
       weight            = 1
     },
-  ] : []
+  ] : [
+    {
+      capacity_provider = "${var.ecs_cluster}-native-scaling"
+      weight            = 1
+    },    
+  ]
 }
 
 output "capacity_providers" {
@@ -29,8 +33,8 @@ output "capacity_providers" {
 }
 
 module "service" {
-  source  = "mergermarket/test-load-balanced-ecs-service-no-target-group/acuris"
-  version = "10.0.3"
+  source  = "mergermarket/load-balanced-ecs-service-no-target-group/acuris"
+  version = "2.5.0"
 
   name                                  = local.full_service_name
   cluster                               = var.ecs_cluster
